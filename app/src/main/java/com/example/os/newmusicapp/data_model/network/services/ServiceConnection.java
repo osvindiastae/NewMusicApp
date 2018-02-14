@@ -1,4 +1,4 @@
-package com.example.os.newmusicapp.services;
+package com.example.os.newmusicapp.data_model.network.services;
 
 import android.util.Log;
 

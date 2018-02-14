@@ -1,4 +1,4 @@
-package com.example.os.newmusicapp.music_details;
+package com.example.os.newmusicapp.music_details.classic_music;
 
 
 import android.os.Bundle;
@@ -12,13 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.os.newmusicapp.R;
 import com.example.os.newmusicapp.music_details.adapter.MusicAdapter;
-import com.example.os.newmusicapp.music_details.model.MusicDetails;
-import com.example.os.newmusicapp.services.IRequestInterface;
-import com.example.os.newmusicapp.services.ServiceConnection;
+import com.example.os.newmusicapp.data_model.network.model.MusicDetails;
+import com.example.os.newmusicapp.data_model.network.services.IRequestInterface;
+import com.example.os.newmusicapp.data_model.network.services.ServiceConnection;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -106,7 +105,7 @@ public class ClassicFragment extends Fragment {
                                        @Override
                                        public void accept(MusicDetails musicDetails) throws Exception {
                                            // code to process information
-                                           recyclerView.setAdapter(new MusicAdapter(getActivity(), this, musicDetails.getResults(), R.layout.row_recycler));
+                                           recyclerView.setAdapter(new MusicAdapter(getActivity(), musicDetails.getResults(), R.layout.row_recycler));
                                            // stop refreshing after the data is displayed
                                            refreshLayoutClassic.setRefreshing(false);
                                        }

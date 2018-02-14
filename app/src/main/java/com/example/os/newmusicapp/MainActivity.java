@@ -9,11 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.example.os.newmusicapp.music_details.ClassicFragment;
-import com.example.os.newmusicapp.music_details.PopFragment;
-import com.example.os.newmusicapp.music_details.RockFragment;
+import com.example.os.newmusicapp.music_details.classic_music.ClassicFragment;
+import com.example.os.newmusicapp.music_details.pop_music.PopFragment;
+import com.example.os.newmusicapp.music_details.rock_music.RockFragment;
 import com.example.os.newmusicapp.realmdb.controller.RealmHelper;
 import com.example.os.newmusicapp.realmdb.model.MusicData;
 

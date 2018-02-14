@@ -1,6 +1,6 @@
-package com.example.os.newmusicapp.services;
+package com.example.os.newmusicapp.data_model.network.services;
 
-import com.example.os.newmusicapp.music_details.model.MusicDetails;
+import com.example.os.newmusicapp.data_model.network.model.MusicDetails;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.example.os.newmusicapp.services;
+package com.example.os.newmusicapp.data_model.network.services;
 
 /**
  * Created by Os on 10/02/2018.

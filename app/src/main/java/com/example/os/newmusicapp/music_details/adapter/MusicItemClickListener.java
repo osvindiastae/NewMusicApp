@@ -1,4 +1,4 @@
-package com.example.os.newmusicapp.music_details;
+package com.example.os.newmusicapp.music_details.adapter;
 
 import android.view.View;
 

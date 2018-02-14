@@ -1,4 +1,4 @@
-package com.example.os.newmusicapp.music_details;
+package com.example.os.newmusicapp.music_details.pop_music;
 
 
 import android.os.Bundle;
@@ -12,19 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.os.newmusicapp.MainActivity;
 import com.example.os.newmusicapp.R;
 import com.example.os.newmusicapp.music_details.adapter.MusicAdapter;
-import com.example.os.newmusicapp.music_details.adapter.MusicRealmAdapter;
-import com.example.os.newmusicapp.music_details.model.MusicDetails;
-import com.example.os.newmusicapp.music_details.model.MusicResults;
-import com.example.os.newmusicapp.services.IRequestInterface;
-import com.example.os.newmusicapp.services.ServiceConnection;
+import com.example.os.newmusicapp.data_model.network.model.MusicDetails;
+import com.example.os.newmusicapp.data_model.network.services.IRequestInterface;
+import com.example.os.newmusicapp.data_model.network.services.ServiceConnection;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
-
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -34,20 +28,20 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RockFragment extends Fragment {
+public class PopFragment extends Fragment {
 
     private IRequestInterface requestInterface;
     private RecyclerView recyclerView;
 
     // Swipe to refresh is declared
-    private SwipeRefreshLayout refreshLayoutRock;
+    private SwipeRefreshLayout refreshLayoutPop;
 
     // RxJava to make sure the app doesn't crash if the user
     // closes the app before the request from the api is handles
     private CompositeDisposable compositeDisposable;
 
 
-    public RockFragment() {
+    public PopFragment() {
         // Required empty public constructor
     }
 
@@ -59,7 +53,7 @@ public class RockFragment extends Fragment {
         setRetainInstance(true);
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rock, container, false);
+        return inflater.inflate(R.layout.fragment_pop, container, false);
     }
 
     @Override
@@ -69,19 +63,19 @@ public class RockFragment extends Fragment {
         // Initialised the declared variables
         requestInterface = ServiceConnection.getConnection();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.rvRockContainer);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvPopContainer);
         // set the layout for the recycler view
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // composite disposable
         compositeDisposable = new CompositeDisposable();
 
-        // Call service
+        // call service
         callService();
 
         // setting the refresh function
-        refreshLayoutRock = view.findViewById(R.id.swipeRefreshRock);
-        refreshLayoutRock.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        refreshLayoutPop = view.findViewById(R.id.swipeRefreshPop);
+        refreshLayoutPop.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 callService();
@@ -99,27 +93,22 @@ public class RockFragment extends Fragment {
     }
 
     /**
-     * displayRockResults gathers the data from the API and displays in recycler view
+     * displayPopResults gathers the data from the API and displays in recycler view
      * if there are any errors in retrieving data it throws an error and prints in the Log
-     * if data is received calls the deleteRealmData() from the MainActivity to delete the data from
-     * the Realm Database and then calls the processMusicResults() to add new data to the Realm Database
      * swipe to refresh is turned off after the date is refreshed and also if data cannot be reached
      */
-    private void displayRockResults(){
+    private void displayPopResults(){
         compositeDisposable.add(
-                requestInterface.getRockDetails()
+                requestInterface.getPopDetails()
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Consumer<MusicDetails>() {
                                        @Override
                                        public void accept(MusicDetails musicDetails) throws Exception {
-                                           // Received information is passed to the MusicAdapter to process and display
-                                           recyclerView.setAdapter(new MusicAdapter(getActivity(), this, musicDetails.getResults(), R.layout.row_recycler));
-                                           // stop refresh after data displayed
-                                           refreshLayoutRock.setRefreshing(false);
-                                           // add data into realm database
-                                           MainActivity.deleteRealmData();
-                                           processMusicResults(musicDetails.getResults());
+                                           // code to process information
+                                           recyclerView.setAdapter(new MusicAdapter(getActivity(), musicDetails.getResults(), R.layout.row_recycler));
+                                           // stop refreshing after the data is been displayed
+                                           refreshLayoutPop.setRefreshing(false);
                                        }
                                    },
                                 new Consumer<Throwable>() {
@@ -127,8 +116,8 @@ public class RockFragment extends Fragment {
                                     public void accept(Throwable throwable) throws Exception {
                                         // Error Code
                                         Log.e("consumer__Info",throwable.getMessage());
-                                        // stop refresh is there is an error in receiving the data
-                                        refreshLayoutRock.setRefreshing(false);
+                                        // stop refreshing is there is error in receiving data from the api
+                                        refreshLayoutPop.setRefreshing(false);
                                     }
                                 })
         );
@@ -136,8 +125,7 @@ public class RockFragment extends Fragment {
 
     /**
      * callService method listens to the Internet Connection and Toasts when there is no network
-     * if Internet is available it calls the @displayRockResults
-     * if Internet is not available it displays the data from the Realm Database if data is available
+     * if Internet is available it calls the @displayPopResults
      * swipe to refresh is turned off if data cannot be reached
      */
     private void callService(){
@@ -146,39 +134,22 @@ public class RockFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void accept(Boolean isConnectedToInternet){
+                    public void accept(Boolean isConnectedToInternet)throws Exception{
                         if (isConnectedToInternet){
                             // display data from API
-                            displayRockResults();
+                            displayPopResults();
                         } else {
                             // check Realm database for data
-                            recyclerView.setAdapter(new MusicRealmAdapter(getActivity(), MainActivity.getRealmData(), R.layout.row_recycler));
+//                            Toast.makeText(getActivity().getApplicationContext(), "NO NETWORK!", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setMessage("You don't have internet connection")
                                     .setTitle("Network Alert!");
                             AlertDialog dialog = builder.create();
                             dialog.show();
-                            //Toast.makeText(getActivity().getApplicationContext(), "NO NETWORK!", Toast.LENGTH_LONG).show();
                             // stop refreshing is there is no network
-                            refreshLayoutRock.setRefreshing(false);
+                            refreshLayoutPop.setRefreshing(false);
                         }
                     }
                 });
-    }
-
-    /**
-     * processMusicResults as the name suggests the method processes the list of music result received
-     * from the API and adds the data to the Realm Database
-     * @param musicResults
-     */
-    private void processMusicResults(List<MusicResults> musicResults){
-        for (MusicResults currentRecord : musicResults){
-            MainActivity.saveToRealm(
-                    currentRecord.getArtistName(),
-                    currentRecord.getCollectionName(),
-                    currentRecord.getArtworkUrl60(),
-                    currentRecord.getTrackPrice().toString()
-            );
-        }
     }
 }

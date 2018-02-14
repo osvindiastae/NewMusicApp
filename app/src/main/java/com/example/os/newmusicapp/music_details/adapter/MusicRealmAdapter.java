@@ -14,9 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.os.newmusicapp.R;
-import com.example.os.newmusicapp.music_details.MusicItemClickListener;
 import com.example.os.newmusicapp.realmdb.model.MusicData;
-import com.example.os.newmusicapp.services.ApiList;
+import com.example.os.newmusicapp.data_model.network.services.ApiList;
 
 import java.util.ArrayList;
 

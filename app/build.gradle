@@ -53,4 +53,7 @@ dependencies {
 
     // reactive
     implementation 'com.github.pwittchen:reactivenetwork-rx2:0.12.3'
+
+    // design
+    compile 'com.android.support:design:26.+'
 }

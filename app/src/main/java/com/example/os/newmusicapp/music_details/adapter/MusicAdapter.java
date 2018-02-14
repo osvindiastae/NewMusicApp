@@ -18,10 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.os.newmusicapp.R;
-import com.example.os.newmusicapp.music_details.MusicItemClickListener;
-import com.example.os.newmusicapp.music_details.model.MusicDetails;
-import com.example.os.newmusicapp.music_details.model.MusicResults;
-import com.example.os.newmusicapp.services.ApiList;
+import com.example.os.newmusicapp.data_model.network.model.MusicDetails;
+import com.example.os.newmusicapp.data_model.network.model.MusicResults;
+import com.example.os.newmusicapp.data_model.network.services.ApiList;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     private List<MusicResults> results;
     private int row_recycler;
 
-    public MusicAdapter(FragmentActivity activity, Consumer<MusicDetails> consumer, List<MusicResults> results, int row_recycler) {
+    public MusicAdapter(FragmentActivity activity, /*Consumer<MusicDetails> consumer,*/ List<MusicResults> results, int row_recycler) {
         this.activity = activity;
         this.consumer = consumer;
         this.results = results;

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#58d68d"
-    tools:context="com.example.os.newmusicapp.music_details.PopFragment">
+    tools:context="com.example.os.newmusicapp.music_details.pop_music.PopFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
